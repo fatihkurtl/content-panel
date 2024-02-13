@@ -2,7 +2,7 @@
 import { ref, provide } from 'vue'
 import MainLayout from '@/layouts/admin/MainLayout.vue'
 import PreviewModal from '@/components/Invoices/PreviewModal.vue'
-import { InvoicesTableHeader, InvoicesChoices, InvoicesFilter, InvoicesActions } from '@/composables/invoices/enums'
+import { InvoicesTableHeader, InvoicesChoices, InvoicesFilter, InvoicesActions } from '@/enums/invoices/enums'
 import useInvoiceDropdowns from '@/composables/invoices/invoice-dropdowns'
 
 const {
