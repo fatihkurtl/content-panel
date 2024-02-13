@@ -32,7 +32,8 @@ const sidebar = useSidebarStore()
             <ul class="space-y-2 font-medium">
                 <li v-for="(route, index) in router.getRoutes()" :key="index">
                 <!-- v-if="route.path !== '/:pathMatch(.*)*'" -->
-                    <RouterLink :to="route.path"
+                    <!-- && !(route.name as string).includes('Crud') -->
+                    <RouterLink :to="route.path" 
                         v-if="route.meta.requiresAuth === true"
                         active-class="bg-slate-600"
                         class="flex items-center p-2 text-gray-100 rounded-lg dark:text-white hover:bg-slate-600 dark:hover:bg-gray-700 group">
