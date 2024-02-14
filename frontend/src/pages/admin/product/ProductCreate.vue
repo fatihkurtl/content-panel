@@ -4,15 +4,15 @@ import MainLayout from '@/layouts/admin/MainLayout.vue'
 import type { ProductCreate, ImagePreview } from '@/interfaces/product'
 
 const productData = reactive<ProductCreate>({
-    name: null,
-    brand: null,
-    price: null,
+    name: '',
+    brand: '',
+    price: 0,
     category: '',
-    weight: null,
+    weight: 0,
     stock: 0,
     color: '',
     images: [],
-    description: null,
+    description: '',
 })
 
 const imagesPreviewList = ref<ImagePreview[]>([])
@@ -131,7 +131,7 @@ const removeImage = (index: number): void => {
                                         <option value="red">Kırmızı</option>
                                     </select>
                                 </div>
-                                <div class="lg:ml-6 md:ml-6 sm:ml-0">
+                                <div class="w-full lg:ml-auto"> <!-- lg:ml-6 md:ml-6 sm:ml-0 -->
                                     <label for="quantity-input"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stok</label>
                                     <div class="relative flex items-center max-w-[10rem]">
@@ -158,7 +158,7 @@ const removeImage = (index: number): void => {
                                             </svg>
                                         </button>
                                     </div>
-                                </div>                                
+                                </div>
                             </div>
                             <!-- Color -->
                             <!-- TODO: Konumu Duzeltilecek Stock -->

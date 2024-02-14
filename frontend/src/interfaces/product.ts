@@ -1,13 +1,13 @@
 export interface ProductCreate {
-    name: string | null,
-    brand: string | null,
-    price: number | null,
+    name: string,
+    brand: string,
+    price: number
     category: string,
-    weight: number | null,
+    weight: number,
     stock: number,
     color: string,
     images: File[],
-    description: string | null
+    description: string
 }
 
 export interface ImagePreview {
