@@ -10,6 +10,7 @@ const productData = reactive<ProductCreate>({
     category: '',
     weight: null,
     stock: 0,
+    color: '',
     images: [],
     description: null,
 })
@@ -20,6 +21,12 @@ const imagesPreviewList = ref<ImagePreview[]>([])
 const selectCategory = (event: Event): void => {
     const target = event.target as HTMLSelectElement
     productData.category = target.value
+}
+
+// TODO: renkler simdilik static ancak backend'den gelmeli
+const selectColor = (event: Event): void => {
+    const target = event.target as HTMLSelectElement
+    productData.color = target.value
 }
 
 const increaseStock = (): void => {
@@ -65,7 +72,7 @@ const removeImage = (index: number): void => {
         <section
             class="bg-mainBgColor dark:bg-gray-900 rounded-lg border md:pl-70 mx-4 shadow-md sm:rounded-lg overflow-hidden">
             <div class="bg-white rounded-lg dark:bg-gray-800 md:pl-70 shadow-md sm:rounded-lg overflow-hidden">
-                <div class="py-8 px-4 mx-auto lg:py-16"> <!-- max-w-2xl -->
+                <div class="py-8 px-4 mx-auto lg:py-6"> <!-- max-w-2xl lg:py-16 -->
                     <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Yeni bir ürün ekle</h2>
                     <form>
                         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -111,7 +118,51 @@ const removeImage = (index: number): void => {
                                     placeholder="12" required>
                             </div>
                             <!-- TODO: Konumu Duzeltilecek Stock -->
-                            <div>
+                            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6 items-center">
+                                <div>
+                                    <label for="color"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Renk</label>
+                                    <select @change="selectColor" id="category"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option selected value="">Renk seçiniz</option>
+                                        <option value="black">Siyah</option>
+                                        <option value="white">Beyaz</option>
+                                        <option value="blue">Mavi</option>
+                                        <option value="red">Kırmızı</option>
+                                    </select>
+                                </div>
+                                <div class="lg:ml-6 md:ml-6 sm:ml-0">
+                                    <label for="quantity-input"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stok</label>
+                                    <div class="relative flex items-center max-w-[10rem]">
+                                        <button @click="decreaseStock" type="button" id="decrement-button"
+                                            data-input-counter-decrement="quantity-input"
+                                            class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                            <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2" d="M1 1h16" />
+                                            </svg>
+                                        </button>
+                                        <input v-model="productData.stock" type="text" id="quantity-input"
+                                            data-input-counter aria-describedby="helper-text-explanation"
+                                            class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="999" required>
+                                        <button @click="increaseStock" type="button" id="increment-button"
+                                            data-input-counter-increment="quantity-input"
+                                            class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                            <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2" d="M9 1v16M1 9h16" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>                                
+                            </div>
+                            <!-- Color -->
+                            <!-- TODO: Konumu Duzeltilecek Stock -->
+                            <!-- <div>
                                 <label for="quantity-input"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stok</label>
                                 <div class="relative flex items-center max-w-[10rem]">
@@ -138,8 +189,22 @@ const removeImage = (index: number): void => {
                                         </svg>
                                     </button>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- Stock -->
+                            <!-- TODO: Color konumu duzeltilecek ve renkler dinamiklestirilecek -->
+                            <!-- <div>
+                                <label for="color"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Renk</label>
+                                <select @change="selectColor" id="category"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option selected value="">Renk seçiniz</option>
+                                    <option value="black">Siyah</option>
+                                    <option value="white">Beyaz</option>
+                                    <option value="blue">Mavi</option>
+                                    <option value="red">Kırmızı</option>
+                                </select>
+                            </div> -->
+                            <!-- Color -->
                             <div class="sm:col-span-2">
                                 <label for="description"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Açıklama</label>
@@ -184,7 +249,7 @@ const removeImage = (index: number): void => {
                                             <div class="relative w-24 h-24 mx-auto">
                                                 <img class="max-w-xs w-full h-full" :src="image?.url" alt="product images">
                                                 <button @click.stop="removeImage(index)"
-                                                    class="z-10 absolute top-0 right-0 bg-red-200 text-red-800 text-xs font-medium px-1 py-0.5 rounded-full hover:bg-red-300 dark:bg-red-900 dark:text-red-300">
+                                                    class="z-10 absolute top-0 right-0 transform translate-x-2/4 -translate-y-2/4 bg-red-200 text-red-800 text-xs font-medium px-1 py-0.5 rounded-full hover:bg-red-300 dark:bg-red-900 dark:text-red-300">
                                                     <span class="material-symbols-outlined text-xs">
                                                         close
                                                     </span>

@@ -5,6 +5,7 @@ export interface ProductCreate {
     category: string,
     weight: number | null,
     stock: number,
+    color: string,
     images: File[],
     description: string | null
 }
