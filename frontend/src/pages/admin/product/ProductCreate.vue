@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import MainLayout from '@/layouts/admin/MainLayout.vue'
 import type { ProductCreate, ImagePreview } from '@/interfaces/product'
+
 
 const productData = reactive<ProductCreate>({
     name: '',
     brand: '',
     price: 0,
+    quantity: 0,
     category: '',
     weight: 0,
     stock: 0,
+    status: false,
     color: '',
     images: [],
     description: '',
@@ -38,6 +41,10 @@ const decreaseStock = (): void => {
     productData.stock === 0 ? alert("Stok miktarı 0'dan küçük olamaz!") : productData.stock--
 }
 
+const statusToggle = computed(() => {
+    return productData.status ? 'bg-green-600' : 'bg-red-600'
+})
+
 const handleProductFiles = (event: Event): void => {
     event.preventDefault()
     const files = (event.target as HTMLInputElement)?.files || (event as any).dataTransfer?.files
@@ -48,11 +55,11 @@ const handleProductFiles = (event: Event): void => {
             const reader = new FileReader()
             reader.onload = (e) => {
                 imagesPreviewList.value.push({ url: e.target?.result as string, name: file.name })
-            };
+            }
             reader.readAsDataURL(file)
         }
     } else {
-        alert("En fazla 5 ürün fotoğrafı yüklenebilir!");
+        alert("En fazla 5 ürün fotoğrafı yüklenebilir!")
     }
     // console.log(productData.images)
     // console.log(imagesPreviewList.value)
@@ -91,13 +98,6 @@ const removeImage = (index: number): void => {
                                     placeholder="Ürün markası" required>
                             </div>
                             <div class="w-full">
-                                <label for="price"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fiyat</label>
-                                <input v-model="productData.price" type="number" name="price" id="price"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="₺2999" required>
-                            </div>
-                            <div>
                                 <label for="category"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kategori</label>
                                 <select @change="selectCategory" id="category"
@@ -109,32 +109,51 @@ const removeImage = (index: number): void => {
                                     <option value="PH">Telefonlar</option>
                                 </select>
                             </div>
-                            <div>
-                                <label for="item-weight"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ürün Ağırlığı
-                                    (kg)</label>
-                                <input v-model="productData.weight" type="number" name="item-weight" id="item-weight"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="12" required>
+                            <div class="w-full">
+                                <label for="color"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Renk</label>
+                                <select @change="selectColor" id="category"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option selected value="">Renk seçiniz</option>
+                                    <option value="black">Siyah</option>
+                                    <option value="white">Beyaz</option>
+                                    <option value="blue">Mavi</option>
+                                    <option value="red">Kırmızı</option>
+                                </select>
                             </div>
-                            <!-- TODO: Konumu Duzeltilecek Stock -->
                             <div class="grid gap-4 sm:grid-cols-2 sm:gap-6 items-center">
-                                <div>
-                                    <label for="color"
-                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Renk</label>
-                                    <select @change="selectColor" id="category"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option selected value="">Renk seçiniz</option>
-                                        <option value="black">Siyah</option>
-                                        <option value="white">Beyaz</option>
-                                        <option value="blue">Mavi</option>
-                                        <option value="red">Kırmızı</option>
-                                    </select>
+                                <div class="w-full lg:ml-auto">
+                                    <label for="price"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fiyat</label>
+                                    <input v-model="productData.price" type="number" name="price" id="price"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="₺2999" required>
                                 </div>
+                                <div>
+                                    <label for="item-weight"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        Ürün Ağırlığı (kg)
+                                    </label>
+                                    <input v-model="productData.weight" type="number" name="item-weight" id="item-weight"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="12" required>
+                                </div>
+                            </div>
+                            <div class="grid gap-4 sm:grid-cols-3 sm:gap-6 items-center">
+                                <div class="w-full">
+                                    <label for="discount"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        İndirim Oranı
+                                    </label>
+                                    <input v-model="productData.quantity" type="text" name="discount" id="discount"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="% değerini girin">
+                                </div>
+                                <!-- TODO: Konumu Duzeltilecek Stock -->
                                 <div class="w-full lg:ml-auto"> <!-- lg:ml-6 md:ml-6 sm:ml-0 -->
                                     <label for="quantity-input"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stok</label>
-                                    <div class="relative flex items-center max-w-[10rem]">
+                                    <div class="relative flex items-center max-w-md">
                                         <button @click="decreaseStock" type="button" id="decrement-button"
                                             data-input-counter-decrement="quantity-input"
                                             class="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
@@ -158,6 +177,20 @@ const removeImage = (index: number): void => {
                                             </svg>
                                         </button>
                                     </div>
+                                </div>
+                                <div class="w-full lg:ml-auto">
+                                    <label for="color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        Durum
+                                    </label>
+                                    <label class="inline-flex items-center cursor-pointer">
+                                        <input v-model="productData.status" type="checkbox" value="" class="sr-only peer">
+                                        <div :class="statusToggle"
+                                            class="relative w-11 h-6 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600">
+                                        </div>
+                                        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                            {{ productData.status ? 'Aktif' : 'Aktif değil' }}
+                                        </span>
+                                    </label>
                                 </div>
                             </div>
                             <!-- Color -->

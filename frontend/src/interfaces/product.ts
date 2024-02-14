@@ -1,10 +1,12 @@
 export interface ProductCreate {
     name: string,
     brand: string,
-    price: number
+    price: number,
+    quantity: number,
     category: string,
     weight: number,
     stock: number,
+    status: boolean,
     color: string,
     images: File[],
     description: string
