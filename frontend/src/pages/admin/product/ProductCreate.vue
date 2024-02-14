@@ -181,14 +181,16 @@ const removeImage = (index: number): void => {
                                     <div class="grid gap-12 lg:gap-28 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                                         <div v-for="(image, index) in imagesPreviewList" :key="index"
                                             class="text-center text-gray-500 dark:text-gray-400 items-center relative">
-                                            <img class="max-w-xs w-24 h-24 mx-auto" :src="image?.url" alt="product images">
+                                            <div class="relative w-24 h-24 mx-auto">
+                                                <img class="max-w-xs w-full h-full" :src="image?.url" alt="product images">
+                                                <button @click.stop="removeImage(index)"
+                                                    class="z-10 absolute top-0 right-0 bg-red-200 text-red-800 text-xs font-medium px-1 py-0.5 rounded-full hover:bg-red-300 dark:bg-red-900 dark:text-red-300">
+                                                    <span class="material-symbols-outlined text-xs">
+                                                        close
+                                                    </span>
+                                                </button>
+                                            </div>
                                             <p class="text-xs">{{ image.name }}</p>
-                                            <button @click.stop="removeImage(index)"
-                                                class="z-10 absolute top-0 right-0 bg-red-200 text-red-800 text-xs font-medium px-1 py-0.5 rounded-full hover:bg-red-300 dark:bg-red-900 dark:text-red-300">
-                                                <span class="material-symbols-outlined text-xs">
-                                                    close
-                                                </span>
-                                            </button>
                                         </div>
                                     </div>
                                 </div>
