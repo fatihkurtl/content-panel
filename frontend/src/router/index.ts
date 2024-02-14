@@ -25,7 +25,7 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/urun-yukleme',
+      path: '/urun-ekle',
       name: 'Ürün Ekle',
       component: ProductCreate,
       meta: { requiresAuth: true }

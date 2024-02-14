@@ -13,7 +13,7 @@ const productData = reactive<ProductCreate>({
     images: [],
     description: null,
 })
-const imagesPreviewList = ref<string[]>([])
+const imagesPreviewList = ref<{ url: string; name: string }[]>([])
 
 // TODO: kategoriler simdilik static ancak backend'den gelmeli
 const selectCategory = (event: Event): void => {
@@ -33,23 +33,29 @@ const decreaseStock = (): void => {
 const handleProductFiles = (event: Event): void => {
     const target = event.target as HTMLInputElement
     if (target.files) {
-        if (productData.images.length < 6) {
+        if (productData.images.length < 5) {
             productData.images.push(...Array.from(target.files))
             for (const file of Array.from(target.files)) {
                 const reader = new FileReader()
                 reader.onload = (e) => {
-                    imagesPreviewList.value.push(e.target?.result as string)
+                    console.log(e);
+                    imagesPreviewList.value.push({ url: e.target?.result as string, name: file.name })
                 }
                 reader.readAsDataURL(file)
             }
         } else {
             // TODO: tailwind'den alert eklenecek!
-            alert("En fazla 6 ürün fotoğrafı yüklenebilir!")
+            alert("En fazla 5 ürün fotoğrafı yüklenebilir!")
         }
     }
     console.log(productData.images)
+    console.log(imagesPreviewList.value)
 }
 
+const removeImage = (index: number): void => {
+    productData.images.splice(index, 1)
+    imagesPreviewList.value.splice(index, 1)
+}
 
 
 </script>
@@ -59,11 +65,11 @@ const handleProductFiles = (event: Event): void => {
         <section
             class="bg-mainBgColor dark:bg-gray-900 rounded-lg border md:pl-70 mx-4 shadow-md sm:rounded-lg overflow-hidden">
             <div class="bg-white rounded-lg dark:bg-gray-800 md:pl-70 shadow-md sm:rounded-lg overflow-hidden">
-                <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+                <div class="py-8 px-4 mx-auto lg:py-16"> <!-- max-w-2xl -->
                     <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Yeni bir ürün ekle</h2>
                     <form action="#">
                         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-                            <div class="sm:col-span-2">
+                            <div class="sm:col-span-1"> <!-- sm:col-span-2 -->
                                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ürün
                                     Adı</label>
                                 <input v-model="productData.name" type="text" name="name" id="name"
@@ -142,10 +148,11 @@ const handleProductFiles = (event: Event): void => {
                                     placeholder="Ürün açıklaması burada"></textarea>
                             </div>
                             <!-- Product File/Images -->
-                            <div class="sm:col-span-2">
+                            <div class="sm:col-span-2" @dragover.prevent @dragenter.prevent @drop="handleProductFiles">
                                 <label for="description"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ürün
-                                    Görselleri</label>
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Ürün Görselleri
+                                </label>
                                 <label for="dropzone-file"
                                     class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -173,8 +180,16 @@ const handleProductFiles = (event: Event): void => {
                                     <div class="grid gap-12 lg:gap-28 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                                         <div v-for="(image, index) in imagesPreviewList" :key="index"
                                             class="text-center text-gray-500 dark:text-gray-400 items-center">
-                                            <img class="max-w-xs w-24 h-24 mx-auto" :src="image" alt="product images">
-                                            <!-- <p>{{ image.name }}</p> -->
+                                            <img class="max-w-xs w-24 h-24 mx-auto" :src="image?.url" alt="product images">
+                                            <p class="text-xs">{{ image.name }}</p>
+                                            <button @click.stop="removeImage(index)"
+                                                class="top-0 right-0 px-2 py-1 bg-red-500 text-white rounded-full -mt-2 -mr-2 focus:outline-none z-10">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
