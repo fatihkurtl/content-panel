@@ -8,3 +8,8 @@ export interface ProductCreate {
     images: File[],
     description: string | null
 }
+
+export interface ImagePreview {
+    url: string,
+    name: string
+  }

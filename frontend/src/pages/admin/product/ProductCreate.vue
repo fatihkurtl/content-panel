@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import MainLayout from '@/layouts/admin/MainLayout.vue'
-import type { ProductCreate } from '@/interfaces/product'
+import type { ProductCreate, ImagePreview } from '@/interfaces/product'
 
 const productData = reactive<ProductCreate>({
     name: null,
@@ -13,7 +13,8 @@ const productData = reactive<ProductCreate>({
     images: [],
     description: null,
 })
-const imagesPreviewList = ref<{ url: string; name: string }[]>([])
+
+const imagesPreviewList = ref<ImagePreview[]>([])
 
 // TODO: kategoriler simdilik static ancak backend'den gelmeli
 const selectCategory = (event: Event): void => {
@@ -31,26 +32,25 @@ const decreaseStock = (): void => {
 }
 
 const handleProductFiles = (event: Event): void => {
-    const target = event.target as HTMLInputElement
-    if (target.files) {
-        if (productData.images.length < 5) {
-            productData.images.push(...Array.from(target.files))
-            for (const file of Array.from(target.files)) {
-                const reader = new FileReader()
-                reader.onload = (e) => {
-                    console.log(e);
-                    imagesPreviewList.value.push({ url: e.target?.result as string, name: file.name })
-                }
-                reader.readAsDataURL(file)
-            }
-        } else {
-            // TODO: tailwind'den alert eklenecek!
-            alert("En fazla 5 ürün fotoğrafı yüklenebilir!")
+    event.preventDefault()
+    const files = (event.target as HTMLInputElement)?.files || (event as any).dataTransfer?.files
+    if (files && productData.images.length < 5) {
+        const fileList = Array.from(files) as File[]
+        productData.images.push(...fileList)
+        for (const file of fileList) {
+            const reader = new FileReader()
+            reader.onload = (e) => {
+                imagesPreviewList.value.push({ url: e.target?.result as string, name: file.name })
+            };
+            reader.readAsDataURL(file)
         }
+    } else {
+        alert("En fazla 5 ürün fotoğrafı yüklenebilir!");
     }
-    console.log(productData.images)
-    console.log(imagesPreviewList.value)
-}
+    // console.log(productData.images)
+    // console.log(imagesPreviewList.value)
+};
+
 
 const removeImage = (index: number): void => {
     productData.images.splice(index, 1)
@@ -67,7 +67,7 @@ const removeImage = (index: number): void => {
             <div class="bg-white rounded-lg dark:bg-gray-800 md:pl-70 shadow-md sm:rounded-lg overflow-hidden">
                 <div class="py-8 px-4 mx-auto lg:py-16"> <!-- max-w-2xl -->
                     <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Yeni bir ürün ekle</h2>
-                    <form action="#">
+                    <form>
                         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                             <div class="sm:col-span-1"> <!-- sm:col-span-2 -->
                                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ürün
@@ -148,7 +148,8 @@ const removeImage = (index: number): void => {
                                     placeholder="Ürün açıklaması burada"></textarea>
                             </div>
                             <!-- Product File/Images -->
-                            <div class="sm:col-span-2" @dragover.prevent @dragenter.prevent @drop="handleProductFiles">
+                            <div class="sm:col-span-2" @dragover.prevent @dragenter.prevent
+                                @drop="handleProductFiles($event)">
                                 <label for="description"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Ürün Görselleri
@@ -168,7 +169,7 @@ const removeImage = (index: number): void => {
                                         <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG (MAX. 800x400px)
                                         </p>
                                     </div>
-                                    <input @change="handleProductFiles" multiple accept="image/*" id="dropzone-file"
+                                    <input @change="handleProductFiles($event)" multiple accept="image/*" id="dropzone-file"
                                         type="file" class="hidden" />
                                 </label>
                             </div>
@@ -179,15 +180,13 @@ const removeImage = (index: number): void => {
                                 <div class="text-center">
                                     <div class="grid gap-12 lg:gap-28 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                                         <div v-for="(image, index) in imagesPreviewList" :key="index"
-                                            class="text-center text-gray-500 dark:text-gray-400 items-center">
+                                            class="text-center text-gray-500 dark:text-gray-400 items-center relative">
                                             <img class="max-w-xs w-24 h-24 mx-auto" :src="image?.url" alt="product images">
                                             <p class="text-xs">{{ image.name }}</p>
-                                            <button @click.stop="removeImage(index)" class="z-10 mt-2">
-                                                <span
-                                                    class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2 py-1.5 rounded dark:bg-red-900 dark:text-red-300">
-                                                    <span class="material-symbols-outlined text-sm">
-                                                        close
-                                                    </span>
+                                            <button @click.stop="removeImage(index)"
+                                                class="z-10 absolute top-0 right-0 bg-red-200 text-red-800 text-xs font-medium px-1 py-0.5 rounded-full hover:bg-red-300 dark:bg-red-900 dark:text-red-300">
+                                                <span class="material-symbols-outlined text-xs">
+                                                    close
                                                 </span>
                                             </button>
                                         </div>
