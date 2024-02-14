@@ -182,13 +182,13 @@ const removeImage = (index: number): void => {
                                             class="text-center text-gray-500 dark:text-gray-400 items-center">
                                             <img class="max-w-xs w-24 h-24 mx-auto" :src="image?.url" alt="product images">
                                             <p class="text-xs">{{ image.name }}</p>
-                                            <button @click.stop="removeImage(index)"
-                                                class="top-0 right-0 px-2 py-1 bg-red-500 text-white rounded-full -mt-2 -mr-2 focus:outline-none z-10">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M6 18L18 6M6 6l12 12"></path>
-                                                </svg>
+                                            <button @click.stop="removeImage(index)" class="z-10 mt-2">
+                                                <span
+                                                    class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2 py-1.5 rounded dark:bg-red-900 dark:text-red-300">
+                                                    <span class="material-symbols-outlined text-sm">
+                                                        close
+                                                    </span>
+                                                </span>
                                             </button>
                                         </div>
                                     </div>
