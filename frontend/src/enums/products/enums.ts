@@ -9,3 +9,22 @@ export enum ProductsTableHeader {
     revenue = 'Gelir',
     lastUpdate = 'Son Güncelleme',
 }
+
+export enum ProductFilterBrands {
+    apple = 'Apple',
+    microsoft = 'Microsoft',
+    razor = 'Razor',
+    nikon = 'Nikon',
+    benQ = 'BenQ'
+}
+
+export enum ProductFilterCategories {
+    pc = 'Desktop PC',
+    phone = 'Phone',
+    tablet = 'Tablet',
+    console = 'Console',
+    gaming = 'Gaming/Console',
+    watch = 'Watch',
+    photoVideo = 'Photo/Video',
+    tvMonitor = 'TV/Monitor',
+}

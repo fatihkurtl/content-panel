@@ -19,43 +19,43 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/urunler',
+      path: '/products',
       name: 'Ürünler',
       component: Products,
       meta: { requiresAuth: true }
     },
     {
-      path: '/urun-ekle',
+      path: '/product-add',
       name: 'Ürün Ekle',
       component: ProductCreate,
       meta: { requiresAuth: true }
     },
     {
-      path: '/incelemeler',
+      path: '/reviews',
       name: 'İncelemeler',
       component: Reviews,
       meta: { requiresAuth: true }
     },
     {
-      path: '/musteriler',
+      path: '/customers',
       name: 'Müşteriler',
       component: Customers,
       meta: { requiresAuth: true }
     },
     {
-      path: '/faturalar',
+      path: '/invoices',
       name: 'Faturalar',
       component: Invoices,
       meta: { requiresAuth: true }
     },
     {
-      path: '/raporlar',
+      path: '/reports',
       name: 'Raporlar',
       component: Reports,
       meta: { requiresAuth: true }
     },
     {
-      path: '/ayarlar',
+      path: '/settings',
       name: 'Ayarlar',
       component: Settings,
       meta: { requiresAuth: true }

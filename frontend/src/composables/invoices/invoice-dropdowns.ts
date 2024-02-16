@@ -11,7 +11,7 @@ export default function useInvoiceDropdowns() {
     const tableChoicesOpen = ref<boolean>(false)
     const tableChoicesElement = ref<HTMLElement | null>(null)
 
-    const toggleDropdown = (clickedDropdown: string) => {
+    const toggleDropdown = (clickedDropdown: string): void => {
         if (clickedDropdown === 'action') {
             tableActionDropdownOpen.value = !tableActionDropdownOpen.value
             tableFilterDropdownOpen.value = false
@@ -29,7 +29,7 @@ export default function useInvoiceDropdowns() {
         }
     }
 
-    const handleClickOutside = (event: Event) => {
+    const handleClickOutside = (event: Event): void => {
         if (tableActionDropdownElement.value && !tableActionDropdownElement.value.contains(event.target as Node)) {
             tableActionDropdownOpen.value = false
         }
