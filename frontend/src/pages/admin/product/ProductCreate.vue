@@ -280,7 +280,7 @@ const removeImage = (index: number): void => {
                                         <div v-for="(image, index) in imagesPreviewList" :key="index"
                                             class="text-center text-gray-500 dark:text-gray-400 items-center relative">
                                             <div class="relative w-24 h-24 mx-auto">
-                                                <img class="max-w-xs w-full h-full" :src="image?.url" alt="product images">
+                                                <img class="max-w-xs w-full h-full" :src="image?.url" :alt="image?.name">
                                                 <button @click.stop="removeImage(index)"
                                                     class="z-10 absolute top-0 right-0 transform translate-x-2/4 -translate-y-2/4 bg-red-200 text-red-800 text-xs font-medium px-1 py-0.5 rounded-full hover:bg-red-300 dark:bg-red-900 dark:text-red-300">
                                                     <span class="material-symbols-outlined text-xs">

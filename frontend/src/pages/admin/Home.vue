@@ -211,7 +211,7 @@ console.log('.env variable =>', import.meta.env.VITE_APP_NAME)
                                        Satıldı
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                       Category
+                                       Kategori
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                        Gelir
