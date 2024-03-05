@@ -13,7 +13,6 @@ export default function useHomeDropdowns() {
             customerChartFilterOpen.value = false
         }
         if (clickedDropdown === 'customerChartFilter') {
-            console.log(clickedDropdown);
             customerChartFilterOpen.value = !customerChartFilterOpen.value
             topSellingFilterOpen.value = false
         }

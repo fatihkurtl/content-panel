@@ -4,14 +4,13 @@ import MainLayout from '@/layouts/admin/MainLayout.vue'
 import { TopSellingFilters } from '@/enums/home/enum'
 import useHomeDropdowns from '@/composables/home/home-dropdowns'
 import CustomersChart from '@/components/Home/CustomersChart.vue'
+import WebsiteTrafficChart from '@/components/Home/WebsiteTrafficChart.vue'
 
 const selectedTimePeriod = ref<string>('')
 
 const {
    topSellingFilterOpen,
    topSellingElement,
-   customerChartFilterOpen,
-   customerChartElement,
    toggleDropdown
 } = useHomeDropdowns()
 
@@ -373,9 +372,12 @@ console.log('.env variable =>', import.meta.env.VITE_APP_NAME)
                         <CustomersChart />
                         <!-- Customers Chart -->
                         <!-- </div> -->
-                        <div
-                           class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72">
-                        </div>
+                        <!-- <div
+                           class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"> -->
+                           <!-- WebsiteTrafficChart -->
+                           <WebsiteTrafficChart />
+                           <!-- WebsiteTrafficChart -->
+                        <!-- </div> -->
                         <div
                            class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72">
                         </div>

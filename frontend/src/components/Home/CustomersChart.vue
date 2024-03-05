@@ -87,7 +87,7 @@ onMounted(() => {
 
 <template>
 
-    <div class="min-w-sm w-full border bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+    <div class="min-w-sm w-full min-h-full border bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
         <div class="flex justify-between">
             <div>
                 <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">
@@ -129,7 +129,7 @@ onMounted(() => {
                         <li @click="customerChartFilterOpen = false"
                             v-for="(timeRange, index) in CustomersTimeChartFilters" :key="index">
                             <a @click="chartSelectedTimePeriod = timeRange"
-                                class="block px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                class="block px-4 py-2 mx-2 my-2 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                 {{ timeRange }}
                             </a>
                         </li>
