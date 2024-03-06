@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import MainLayout from '@/layouts/admin/MainLayout.vue'
 import { TopSellingFilters } from '@/enums/home/enum'
 import useHomeDropdowns from '@/composables/home/home-dropdowns'
+import TableFooter from '@/components/Global/TableFooter.vue'
 import CustomersChart from '@/components/Home/CustomersChart.vue'
 import WebsiteTrafficChart from '@/components/Home/WebsiteTrafficChart.vue'
 
@@ -113,7 +114,7 @@ console.log('.env variable =>', import.meta.env.VITE_APP_NAME)
                      <!-- Top Selling Products -->
                      <div class="py-4">
                         <h1 class="py-2 text-xl font-semibold">En Çok Satılan Ürünler</h1>
-                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <div class="relative overflow-x-auto shadow-md">
                            <div
                               class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
                               <div ref="topSellingElement">
@@ -363,14 +364,19 @@ console.log('.env variable =>', import.meta.env.VITE_APP_NAME)
                               </tbody>
                            </table>
                         </div>
+                        <!-- Table Footer -->
+                        <div class="relative overflow-hidden bg-white rounded-b-lg shadow-md dark:bg-gray-800">
+                           <TableFooter />
+                        </div>
+                        <!-- Table Footer -->
                      </div>
                      <!-- Top Selling Products -->
                      <div class="grid grid-cols-2 gap-4 mb-4">
                         <div
                            class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72">
-                        <!-- Customers Chart -->
-                        <!-- <CustomersChart /> -->
-                        <!-- Customers Chart -->
+                           <!-- Customers Chart -->
+                           <!-- <CustomersChart /> -->
+                           <!-- Customers Chart -->
                         </div>
                         <div
                            class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72">
