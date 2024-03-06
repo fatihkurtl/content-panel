@@ -1,22 +1,30 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import awsIcon from '@/assets/aws_icon.png'
 import Layout from '@/layouts/base/Layout.vue'
 import type { LoginData } from '@/interfaces/login'
+import InputWithErrors from '@/layouts/base/Errors/InputWithErrors.vue'
+
 
 const appName = ref<string>(import.meta.env.VITE_APP_NAME)
 
+const propsMessage = ref<string>('')
 
 const loginData = reactive<LoginData>({
-  email: null,
-  password: null,
+  email: '',
+  password: '',
   rememberMe: false
 })
 
-const signIn = (): void => {
-  console.log(loginData)
-}
+const router = useRouter()
 
+const signIn = (): void => {
+  const { email, password, rememberMe } = loginData
+  email === '' || password === '' ? propsMessage.value = 'Bu alan zorunludur!' : propsMessage.value = ''
+  console.log(loginData)
+  email !== '' && password !== '' ? router.push('/') : router.push('/login')
+}
 
 </script>
 
@@ -40,13 +48,15 @@ const signIn = (): void => {
               </label>
               <input v-model="loginData.email" type="email" name="email" id="email"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="name@company.com" required>
+                placeholder="name@company.com">
+                <InputWithErrors v-if="loginData.email === ''" :message="propsMessage"/>
             </div>
             <div>
               <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Şifre</label>
               <input v-model="loginData.password" type="password" name="password" id="password" placeholder="••••••••"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required>
+                >
+                <InputWithErrors v-if="loginData.password === ''" :message="propsMessage"/>
             </div>
             <div class="flex items-center justify-between">
               <div class="flex items-start">

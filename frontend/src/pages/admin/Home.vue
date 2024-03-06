@@ -366,18 +366,18 @@ console.log('.env variable =>', import.meta.env.VITE_APP_NAME)
                      </div>
                      <!-- Top Selling Products -->
                      <div class="grid grid-cols-2 gap-4 mb-4">
-                        <!-- <div
-                           class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"> -->
+                        <div
+                           class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72">
                         <!-- Customers Chart -->
-                        <CustomersChart />
+                        <!-- <CustomersChart /> -->
                         <!-- Customers Chart -->
-                        <!-- </div> -->
-                        <!-- <div
-                           class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"> -->
+                        </div>
+                        <div
+                           class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72">
                            <!-- WebsiteTrafficChart -->
-                           <WebsiteTrafficChart />
+                           <!-- <WebsiteTrafficChart /> -->
                            <!-- WebsiteTrafficChart -->
-                        <!-- </div> -->
+                        </div>
                         <div
                            class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72">
                         </div>

@@ -15,6 +15,7 @@
     "@vueuse/core": "^10.7.2",
     "apexcharts": "^3.46.0",
     "chart.js": "^4.4.2",
+    "crypto-js": "^4.2.0",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "vue": "^3.4.15",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.2",
+    "@types/crypto-js": "^4.2.2",
     "@types/node": "^20.11.10",
     "@vitejs/plugin-vue": "^5.0.3",
     "@vue/tsconfig": "^0.5.1",
