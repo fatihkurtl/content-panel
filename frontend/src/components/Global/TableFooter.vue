@@ -1,4 +1,20 @@
 <script setup lang="ts">
+import { ref, inject } from 'vue'
+
+
+interface Pagination {
+  prevPage: () => void
+  nextPage: () => void
+}
+const pagination = inject<Pagination>('pagination') || { nextPage: () => {}, prevPage: () => {} }
+
+const pageNumber = defineModel<number>('pageNumber', { required: true })
+const maxPageCount = defineModel<number>('maxPageCount', { required: true })
+const totalProductCount = defineModel('totalProductCount', { required: true })
+
+const goToPage = (page: number): void => {
+    pageNumber.value = page
+}
 
 </script>
 
@@ -7,14 +23,15 @@
     <nav class="flex flex-col items-start justify-between p-4 space-y-3 md:flex-row md:items-center md:space-y-0"
         aria-label="Table navigation">
         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-            Showing
-            <span class="font-semibold text-gray-900 dark:text-white">1-10</span>
-            of
-            <span class="font-semibold text-gray-900 dark:text-white">1000</span>
+            <span class="font-semibold text-gray-900 dark:text-white">{{ totalProductCount }}</span>
+            üründen
+            <span class="font-semibold text-gray-900 dark:text-white">{{ pageNumber }}-{{ maxPageCount }}</span>
+            arası gösteriliyor
         </span>
         <ul class="inline-flex items-stretch -space-x-px">
             <li>
                 <a href="#"
+                @click="pagination.prevPage"
                     class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                     <span class="sr-only">Previous</span>
                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
@@ -25,28 +42,18 @@
                     </svg>
                 </a>
             </li>
-            <li>
+            <li v-for="(page, index) in maxPageCount" :key="index">
                 <a href="#"
-                    class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+                @click="goToPage(page)"
+                    :class="{'bg-white': page !== pageNumber, 'bg-gray-300 font-bold': page === pageNumber}"
+                    class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    {{ page }}    
+                </a>
             </li>
             <li>
                 <a href="#"
-                    class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-            </li>
-            <li>
-                <a href="#" aria-current="page"
-                    class="z-10 flex items-center justify-center px-3 py-2 text-sm leading-tight border text-blue-600 bg-blue-50 border-blue-300 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-            </li>
-            <li>
-                <a href="#"
-                    class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
-            </li>
-            <li>
-                <a href="#"
-                    class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
-            </li>
-            <li>
-                <a href="#"
+                v-if="pageNumber < maxPageCount"
+                @click="pagination.nextPage"
                     class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                     <span class="sr-only">Next</span>
                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
