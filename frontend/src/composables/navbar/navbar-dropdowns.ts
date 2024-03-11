@@ -8,7 +8,7 @@ export default function useNavbarDropdowns() {
     const notificationsMenuOpen = ref<boolean>(false)
     const notifationMenuElement = ref<HTMLElement | null>(null)
 
-    const toggleDropdown = (clickedDropdown: string) => {
+    const toggleDropdown = (clickedDropdown: string): void => {
         if (clickedDropdown === 'user') {
             userMenuOpen.value = !userMenuOpen.value
             notificationsMenuOpen.value = false            
@@ -18,7 +18,7 @@ export default function useNavbarDropdowns() {
         }
     }
 
-    const handleClickOutside = (event: Event) => {
+    const handleClickOutside = (event: Event): void => {
         if (userMenuElement.value && !userMenuElement.value.contains(event.target as Node)) {
             userMenuOpen.value = false
         }

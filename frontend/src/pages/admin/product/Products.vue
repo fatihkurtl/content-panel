@@ -3,8 +3,9 @@ import { ref, onMounted, computed, provide } from 'vue'
 import { RouterLink } from 'vue-router'
 import { ProductsTableHeader } from '@/enums/products/enums'
 import MainLayout from '@/layouts/admin/MainLayout.vue'
-import useProductDropdowns from '@/composables/products/product-dropdowns'
-import { ProductFilterBrands, ProductFilterCategories } from '@/enums/products/enums'
+import CategoryFilter from '@/components/Product/CategoryFilter.vue'
+import BrandFilter from '@/components/Product/BrandFilter.vue'
+import StockStatusFilter from '@/components/Product/StockStatusFilter.vue'
 import TableFooter from '@/components/Global/TableFooter.vue'
 import ApiService from '@/services/apiServices'
 
@@ -18,9 +19,10 @@ const page = ref<number>(1)
 const totalProducts = ref<number>(0)
 const maxPage = ref<number>(0)
 
-const calculateMaxPage = () => {
+const calculateMaxPage = (): number => {
     return Math.ceil(totalProducts.value / limit.value)
 }
+
 const fetchData = async () => {
     try {
         const response = await apiService.getAll(limit.value, (page.value - 1) * limit.value)
@@ -33,8 +35,6 @@ const fetchData = async () => {
         throw new Error(error)
     }
 }
-
-
 
 const prevPage = (): void => {
     if (page.value > 1) {
@@ -51,21 +51,11 @@ const nextPage = (): void => {
 }
 
 onMounted(() => {
-    fetchData();
-    maxPage.value = calculateMaxPage();
+    fetchData()
+    maxPage.value = calculateMaxPage()
 })
 
 provide('pagination', { prevPage, nextPage })
-
-const {
-    productFilterOpen,
-    productFilterElement,
-    productCategoryFilterOpen,
-    productCategoryElement,
-    productBrandFilterOpen,
-    productBrandElement,
-    toggleDropdown
-} = useProductDropdowns()
 
 </script>
 
@@ -112,162 +102,16 @@ const {
                             </button>
                             <div
                                 class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
-                                <!-- Filter -->
+                                <!-- Categories -->
+                                <!-- TODO: Categories backend'den gelecek -->
+                                <CategoryFilter />
+                                <!-- Categories -->
+                                <!-- TODO: Brands backend'den gelecek -->
+                                <BrandFilter />
+                                <!-- Stock & Status -->
                                 <!-- TODO: Stoklari 0'dan buyuk olanlari da icerecek backend'den gelecek -->
-                                <div ref="productCategoryElement">
-                                    <button @click="toggleDropdown('category')" id="filterDropdownButton"
-                                        data-dropdown-toggle="filterDropdown"
-                                        class="w-full md:w-auto flex items-center justify-center px-2 py-1 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                                        type="button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
-                                            class="h-4 w-4 mr-2 text-gray-400" viewbox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                        Kategori
-                                        <svg class="-mr-1 ml-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
-                                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                            <path clip-rule="evenodd" fill-rule="evenodd"
-                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                                        </svg>
-                                    </button>
-                                    <div id="filterDropdown" :class="{ 'hidden': !productCategoryFilterOpen }"
-                                        class="absolute z-10 w-54 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
-                                        <div class="grid gap-4 sm:grid-cols-1 sm:gap-6 items-center">
-                                            <div>
-                                                <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">
-                                                    Kategori seçin
-                                                </h6>
-                                                <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
-                                                    <li v-for="(category, index) in ProductFilterCategories"
-                                                        :key="index" class="flex items-center">
-                                                        <input :id="category + index" type="checkbox" :value="category"
-                                                            class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                                        <label :for="category + index"
-                                                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                                                            {{ category }}
-                                                        </label>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Filter -->
-                                <!-- TODO: Stoklari 0'dan buyuk olanlari da icerecek backend'den gelecek -->
-                                <div ref="productBrandElement">
-                                    <button @click="toggleDropdown('brand')" id="filterDropdownButton"
-                                        data-dropdown-toggle="filterDropdown"
-                                        class="w-full md:w-auto flex items-center justify-center py-1 px-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                                        type="button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
-                                            class="h-4 w-4 mr-2 text-gray-400" viewbox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                        Marka
-                                        <svg class="-mr-1 ml-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
-                                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                            <path clip-rule="evenodd" fill-rule="evenodd"
-                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                                        </svg>
-                                    </button>
-                                    <div id="filterDropdown" :class="{ 'hidden': !productBrandFilterOpen }"
-                                        class="absolute z-10 w-54 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
-                                        <div class="grid gap-4 sm:grid-cols-1 sm:gap-6 items-center">
-                                            <div>
-                                                <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">
-                                                    Marka seçin
-                                                </h6>
-                                                <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
-                                                    <li v-for="(brand, index) in ProductFilterBrands" :key="index"
-                                                        class="flex items-center">
-                                                        <input :id="brand + index" type="checkbox" :value="brand"
-                                                            class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                                        <label :for="brand + index"
-                                                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                                                            {{ brand }}
-                                                        </label>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Filter -->
-                                <!-- TODO: Stoklari 0'dan buyuk olanlari da icerecek backend'den gelecek -->
-                                <div ref="productFilterElement">
-                                    <button @click="toggleDropdown('filter')" id="filterDropdownButton"
-                                        data-dropdown-toggle="filterDropdown"
-                                        class="w-full md:w-auto flex items-center justify-center py-1 px-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                                        type="button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
-                                            class="h-4 w-4 mr-2 text-gray-400" viewbox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                        Filtre
-                                        <svg class="-mr-1 ml-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
-                                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                            <path clip-rule="evenodd" fill-rule="evenodd"
-                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                                        </svg>
-                                    </button>
-                                    <div id="filterDropdown" :class="{ 'hidden': !productFilterOpen }"
-                                        class="absolute z-10 w-54 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
-                                        <div class="grid gap-4 sm:grid-cols-1 sm:gap-6 items-center">
-                                            <div>
-                                                <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">
-                                                    Stok</h6>
-                                                <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
-                                                    <li class="flex items-center">
-                                                        <input id="available" type="checkbox" value=""
-                                                            class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                                        <label for="available"
-                                                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                                                            Mevcut
-                                                        </label>
-                                                    </li>
-                                                    <li class="flex items-center">
-                                                        <input id="exhausted" type="checkbox" value=""
-                                                            class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                                        <label for="exhausted"
-                                                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                                                            Tükenmiş
-                                                        </label>
-                                                    </li>
-                                                </ul>
-                                                <h6 class="mb-3 mt-2 text-sm font-medium text-gray-900 dark:text-white">
-                                                    Durum
-                                                </h6>
-                                                <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
-                                                    <li class="flex items-center">
-                                                        <input id="active" type="checkbox" value=""
-                                                            class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                                        <label for="active"
-                                                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                                                            Aktif
-                                                        </label>
-                                                    </li>
-                                                    <li class="flex items-center">
-                                                        <input id="inactive" type="checkbox" value=""
-                                                            class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                                        <label for="inactive"
-                                                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                                                            Aktif değil
-                                                        </label>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Filter -->
+                                <StockStatusFilter />
+                                <!-- Stock & Status -->
                             </div>
                         </div>
                     </div>

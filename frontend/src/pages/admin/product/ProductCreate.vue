@@ -100,26 +100,32 @@ const removeImage = (index: number): void => {
                             <div class="w-full">
                                 <label for="category"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kategori</label>
-                                <select @change="selectCategory" id="category"
+                                <!-- <select @change="selectCategory" id="category"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option selected value="">Kategori seçiniz</option>
                                     <option value="TV">TV/Monitörler</option>
                                     <option value="PC">PC</option>
                                     <option value="GA">Oyun/Konsol</option>
                                     <option value="PH">Telefonlar</option>
-                                </select>
+                                </select> -->
+                                <input v-model="productData.category" type="text" name="category" id="category"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Ürün kategorisi" required>
                             </div>
                             <div class="w-full">
                                 <label for="color"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Renk</label>
-                                <select @change="selectColor" id="category"
+                                <!-- <select @change="selectColor" id="category"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option selected value="">Renk seçiniz</option>
                                     <option value="black">Siyah</option>
                                     <option value="white">Beyaz</option>
                                     <option value="blue">Mavi</option>
                                     <option value="red">Kırmızı</option>
-                                </select>
+                                </select> -->
+                                <input v-model="productData.color" type="text" name="color" id="color"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Ürün rengi" required>
                             </div>
                             <div class="grid gap-4 sm:grid-cols-2 sm:gap-6 items-center">
                                 <div class="w-full lg:ml-auto">

@@ -31,6 +31,7 @@ const goToPage = (page: number): void => {
         <ul class="inline-flex items-stretch -space-x-px">
             <li>
                 <a href="#"
+                v-if="pageNumber !== 1"
                 @click="pagination.prevPage"
                     class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                     <span class="sr-only">Previous</span>
@@ -46,7 +47,7 @@ const goToPage = (page: number): void => {
                 <a href="#"
                 @click="goToPage(page)"
                     :class="{'bg-white': page !== pageNumber, 'bg-gray-300 font-bold': page === pageNumber}"
-                    class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                     {{ page }}    
                 </a>
             </li>
