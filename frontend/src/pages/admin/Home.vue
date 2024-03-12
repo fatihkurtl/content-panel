@@ -366,7 +366,7 @@ console.log('.env variable =>', import.meta.env.VITE_APP_NAME)
                         </div>
                         <!-- Table Footer -->
                         <div class="relative overflow-hidden bg-white rounded-b-lg shadow-md dark:bg-gray-800">
-                           <TableFooter />
+                           <!-- <TableFooter /> -->
                         </div>
                         <!-- Table Footer -->
                      </div>

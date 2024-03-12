@@ -9,7 +9,7 @@ import StockStatusFilter from '@/components/Product/StockStatusFilter.vue'
 import TableFooter from '@/components/Global/TableFooter.vue'
 import ApiService from '@/services/apiServices'
 
-const apiService = new ApiService()
+const apiService = ApiService
 
 const productData = ref<any>()
 const filledStars = computed(() => Math.round(productData.value.rating))

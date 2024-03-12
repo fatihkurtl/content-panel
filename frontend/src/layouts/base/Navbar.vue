@@ -7,6 +7,7 @@ import awsIcon from '@/assets/aws_icon.png'
 import { useSidebarStore } from '../../stores/sidebar'
 import useNavbarDropdowns from '@/composables/navbar/navbar-dropdowns'
 import Progress from '@/components/Global/Progress.vue'
+import authServices from '@/services/auth/authServices'
 
 
 const appName = ref<string>(import.meta.env.VITE_APP_NAME)
@@ -29,6 +30,11 @@ const {
 
 const { sidebarStatus } = useSidebarStore()
 const sidebar = useSidebarStore()
+
+const handleLogout = async () => {
+  await authServices.logout()
+  location.href = '/login'
+}
 
 
 </script>
@@ -270,7 +276,8 @@ const sidebar = useSidebarStore()
                       role="menuitem">Earnings</a>
                   </li>
                   <li>
-                    <a href="/login"
+                    <a href="#"
+                    @click="handleLogout"
                       class="block px-4 py-2 mx-2 my-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                       role="menuitem">Sign out</a>
                   </li>

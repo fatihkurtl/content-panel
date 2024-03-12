@@ -5,6 +5,9 @@ import awsIcon from '@/assets/aws_icon.png'
 import Layout from '@/layouts/base/Layout.vue'
 import type { LoginData } from '@/interfaces/login'
 import InputWithErrors from '@/layouts/base/Errors/InputWithErrors.vue'
+import authServices from '@/services/auth/authServices'
+
+
 
 
 const appName = ref<string>(import.meta.env.VITE_APP_NAME)
@@ -21,9 +24,14 @@ const router = useRouter()
 
 const signIn = (): void => {
   const { email, password, rememberMe } = loginData
-  email === '' || password === '' ? propsMessage.value = 'Bu alan zorunludur!' : propsMessage.value = ''
+  // email === '' || password === '' ? propsMessage.value = 'Bu alan zorunludur!' : propsMessage.value = ''
+  // email !== '' && password !== '' ? router.push('/') : router.push('/login')
   console.log(loginData)
-  email !== '' && password !== '' ? router.push('/') : router.push('/login')
+  if (email === '' || password === '') {
+    propsMessage.value = 'Bu alan zorunludur!'
+  } else {
+    authServices.login(email, password)
+  }
 }
 
 </script>

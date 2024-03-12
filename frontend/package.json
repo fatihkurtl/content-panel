@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.18",
+    "@supabase/supabase-js": "^2.39.8",
     "@vueuse/core": "^10.7.2",
     "apexcharts": "^3.46.0",
     "axios": "^1.6.7",

@@ -15,7 +15,6 @@ export default function productFilters() {
   });
 
   const selectedFilters = (filter: string | boolean, type: string): void => {
-    console.log(filter, type);
     if (type === "category") {
       !filters.category.includes(filter as string)
         ? filters.category.push(filter as string)
