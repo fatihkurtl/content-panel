@@ -589,7 +589,7 @@ provide('previewModalOpen', previewModalOpen)
                         </table>
                     </div>
                     <!-- Table Footer -->
-                    <TableFooter />
+                    <!-- <TableFooter /> -->
                     <!-- Table Footer -->
                 </div>
                 <!-- Invoice table -->

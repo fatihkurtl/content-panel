@@ -8,6 +8,7 @@ import Reports from '@/pages/admin/Reports.vue'
 import Settings from '@/pages/admin/Settings.vue'
 import Login from '@/pages/auth/Login.vue'
 import ProductCreate from '@/pages/admin/product/ProductCreate.vue'
+import { navigationGuard } from '@/router/router-quard'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -69,7 +70,13 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to && from) {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!navigationGuard()) {
+      next({ name: 'Login' })
+    } else {
+      next()
+    }
+  } else {
     next()
   }
 })
