@@ -1,19 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
-import { onClickOutside } from '@vueuse/core'
 import userImage from '@/assets/user.png'
 import awsIcon from '@/assets/aws_icon.png'
 import { useSidebarStore } from '../../stores/sidebar'
 import useNavbarDropdowns from '@/composables/navbar/navbar-dropdowns'
 import Progress from '@/components/Global/Progress.vue'
-import authServices from '@/services/auth/authServices'
+import { useAuthStore } from '@/stores/authStore'
 
-
+const authStore = useAuthStore()
 const appName = ref<string>(import.meta.env.VITE_APP_NAME)
 
-// const userMenuOpen = ref<boolean>(false)
-// const userMenuElement = ref<HTMLElement | null>(null)
+const currentUser = ref()
+const isAuth = ref()
+
+onMounted(async () => {
+  currentUser.value = await authStore.user
+  isAuth.value = await authStore.isAuth
+})
 
 const {
   userMenuOpen,
@@ -24,18 +28,13 @@ const {
 } = useNavbarDropdowns()
 
 
-// const notificationsMenuOpen = ref<boolean>(false)
-// const notifationMenuElments = ref<HTMLElement | null>(null)
-
-
 const { sidebarStatus } = useSidebarStore()
 const sidebar = useSidebarStore()
 
 const handleLogout = async () => {
-  await authServices.logout()
+  await authStore.logout()
   location.href = '/login'
 }
-
 
 </script>
 
@@ -252,11 +251,11 @@ const handleLogout = async () => {
                 class="absolute right-0 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
                 id="dropdown-user">
                 <div class="px-4 py-3" role="none">
-                  <p class="text-sm text-gray-900 dark:text-white" role="none">
-                    Neil Sims
+                  <p v-if="isAuth && currentUser" class="text-sm text-gray-900 dark:text-white" role="none">
+                    Auth: {{ isAuth }}
                   </p>
-                  <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                    neil.sims@flowbite.com
+                  <p v-if="isAuth && currentUser" class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
+                    {{ currentUser.displayName }}
                   </p>
                 </div>
                 <ul class="py-1" role="none">

@@ -1,15 +1,16 @@
 import { supabase } from '@/plugins/supabaseClient'
+import type { IAdmin } from '@/interfaces/auth/admin'
 
 class AuthService {
     async login(__email: string, __password: string): Promise<boolean> {
-        const { data, error } = await supabase.auth.signInWithPassword({
+        const { error } = await supabase.auth.signInWithPassword({
             email: __email,
             password: __password
         })
-        console.log(data)
         if (error) {
             return false
-        } else {
+        } else {            
+            location.href = '/'
             return true
         }
     }
@@ -19,12 +20,12 @@ class AuthService {
        return true
     }
 
-    async getUser(): Promise<any> {
+    async getUser(): Promise<IAdmin | null> {
         const { data } = await supabase.auth.getUser()
-        const user = data.user
+        const user = data?.user
         return {
             id: user?.id,
-            displayName: user?.email
+            displayName: user?.email!
         }
     }
 

@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
 import awsIcon from '@/assets/aws_icon.png'
 import Layout from '@/layouts/base/Layout.vue'
 import type { LoginData } from '@/interfaces/login'
 import InputWithErrors from '@/layouts/base/Errors/InputWithErrors.vue'
-import authServices from '@/services/auth/authServices'
+import { useAuthStore } from '@/stores/authStore'
 
 
-
+const authStore = useAuthStore()
 
 const appName = ref<string>(import.meta.env.VITE_APP_NAME)
 
@@ -20,17 +19,12 @@ const loginData = reactive<LoginData>({
   rememberMe: false
 })
 
-const router = useRouter()
-
-const signIn = (): void => {
+const handleLogin = () => {
   const { email, password, rememberMe } = loginData
-  // email === '' || password === '' ? propsMessage.value = 'Bu alan zorunludur!' : propsMessage.value = ''
-  // email !== '' && password !== '' ? router.push('/') : router.push('/login')
-  console.log(loginData)
   if (email === '' || password === '') {
     propsMessage.value = 'Bu alan zorunludur!'
   } else {
-    authServices.login(email, password)
+    authStore.login(email, password)
   }
 }
 
@@ -49,7 +43,7 @@ const signIn = (): void => {
           <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Hesabınızda oturum açın
           </h1>
-          <form @submit.prevent="signIn" class="space-y-4 md:space-y-6">
+          <form @submit.prevent="handleLogin" class="space-y-4 md:space-y-6">
             <div>
               <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 E-posta adresiniz
