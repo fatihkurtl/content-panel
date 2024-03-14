@@ -19,12 +19,12 @@ const loginData = reactive<LoginData>({
   rememberMe: false
 })
 
-const handleLogin = () => {
+const handleLogin = async () => {
   const { email, password, rememberMe } = loginData
   if (email === '' || password === '') {
     propsMessage.value = 'Bu alan zorunludur!'
-  } else {
-    authStore.login(email, password)
+  } else if (!(await authStore.login(email, password))) {
+    propsMessage.value = 'Kullanıcı adı ya da sifre hatalı!'
   }
 }
 
@@ -43,6 +43,7 @@ const handleLogin = () => {
           <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Hesabınızda oturum açın
           </h1>
+          <InputWithErrors v-if="propsMessage" :message="propsMessage"/>
           <form @submit.prevent="handleLogin" class="space-y-4 md:space-y-6">
             <div>
               <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

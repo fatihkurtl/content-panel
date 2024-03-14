@@ -1,5 +1,3 @@
-// router/router-quard.ts
-
 import { useAuthStore } from '@/stores/authStore'
 import type { IAdmin } from '@/interfaces/auth/admin'
 import type { RouteLocationNormalized, NavigationGuardNext } from 'vue-router'

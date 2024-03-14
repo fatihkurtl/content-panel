@@ -71,5 +71,4 @@ const router = createRouter({
 
 router.beforeEach(navigationGuard)
 
-
 export default router
