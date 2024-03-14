@@ -69,17 +69,7 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (!navigationGuard()) {
-      next({ name: 'Login' })
-    } else {
-      next()
-    }
-  } else {
-    next()
-  }
-})
+router.beforeEach(navigationGuard)
 
 
 export default router
