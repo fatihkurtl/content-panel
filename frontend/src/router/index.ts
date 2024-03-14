@@ -15,49 +15,49 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'Home',
+      name: 'Ana Sayfa',
       component: Home,
       meta: { requiresAuth: true }
     },
     {
       path: '/products',
-      name: 'Products',
+      name: 'Ürünler',
       component: Products,
       meta: { requiresAuth: true }
     },
     {
       path: '/product-add',
-      name: 'Add Product',
+      name: 'Ürün ekle',
       component: ProductCreate,
       meta: { requiresAuth: true }
     },
     {
       path: '/reviews',
-      name: 'Reviews',
+      name: 'Değerlendirmeler',
       component: Reviews,
       meta: { requiresAuth: true }
     },
     {
       path: '/customers',
-      name: 'Customers',
+      name: 'Müşteriler',
       component: Customers,
       meta: { requiresAuth: true }
     },
     {
       path: '/invoices',
-      name: 'Invoices',
+      name: 'Faturalar',
       component: Invoices,
       meta: { requiresAuth: true }
     },
     {
       path: '/reports',
-      name: 'Reports',
+      name: 'Raporlar',
       component: Reports,
       meta: { requiresAuth: true }
     },
     {
       path: '/settings',
-      name: 'Settings',
+      name: 'Ayarlar',
       component: Settings,
       meta: { requiresAuth: true }
     },

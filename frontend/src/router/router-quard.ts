@@ -8,7 +8,7 @@ export const navigationGuard = async (to: RouteLocationNormalized, from: RouteLo
     const user: IAdmin | null = await authStore.user
 
     if (to.name === 'Login' && auth && user) {
-        next({ name: 'Home' })
+        next({ name: 'Ana Sayfa' })
         return false
     }
 
