@@ -15,49 +15,49 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'Ana sayfa',
+      name: 'Home',
       component: Home,
       meta: { requiresAuth: true }
     },
     {
       path: '/products',
-      name: 'Ürünler',
+      name: 'Products',
       component: Products,
       meta: { requiresAuth: true }
     },
     {
       path: '/product-add',
-      name: 'Ürün Ekle',
+      name: 'Add Product',
       component: ProductCreate,
       meta: { requiresAuth: true }
     },
     {
       path: '/reviews',
-      name: 'İncelemeler',
+      name: 'Reviews',
       component: Reviews,
       meta: { requiresAuth: true }
     },
     {
       path: '/customers',
-      name: 'Müşteriler',
+      name: 'Customers',
       component: Customers,
       meta: { requiresAuth: true }
     },
     {
       path: '/invoices',
-      name: 'Faturalar',
+      name: 'Invoices',
       component: Invoices,
       meta: { requiresAuth: true }
     },
     {
       path: '/reports',
-      name: 'Raporlar',
+      name: 'Reports',
       component: Reports,
       meta: { requiresAuth: true }
     },
     {
       path: '/settings',
-      name: 'Ayarlar',
+      name: 'Settings',
       component: Settings,
       meta: { requiresAuth: true }
     },
@@ -80,5 +80,6 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
 
 export default router

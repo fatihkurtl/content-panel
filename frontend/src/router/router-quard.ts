@@ -10,7 +10,7 @@ export const navigationGuard = async () => {
     if (auth && user) {
         return true
     } else {
-        router.push({ name: 'Login' })
+        router.push({ name: 'Login' }) 
         return false
     }
 }
