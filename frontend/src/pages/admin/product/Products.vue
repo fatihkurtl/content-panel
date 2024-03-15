@@ -97,11 +97,9 @@ provide('pagination', { prevPage, nextPage })
     <MainLayout>
         <section class="bg-mainBgColor dark:bg-gray-900 rounded-lg">
             <div class="min-w-full bg-mainBgColor">
-                <div v-if="totalProducts === 0" class="bg-white rounded-lg dark:bg-gray-800 md:pl-70 mx-4 shadow-md sm:rounded-lg overflow-hidden">
                     <!-- Loading Icon -->
-                    <Loading />
+                    <Loading v-if="totalProducts === 0" />
                     <!-- Loading Icon -->                    
-                    </div>
                 <div class="bg-white rounded-lg dark:bg-gray-800 md:pl-70 mx-4 shadow-md sm:rounded-lg overflow-hidden">
                     <div
                         class="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">

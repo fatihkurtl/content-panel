@@ -253,16 +253,16 @@ const handleLogout = async () => {
               </button>
 
               <div :class="{ 'hidden': !userMenuOpen }"
-                class="absolute right-0 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
+                class="absolute right-0 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
                 id="dropdown-user">
-                <div class="px-4 py-3 bg-gray-200" role="none">
+                <div class="px-4 py-3" role="none">
                   <p v-if="isAuth && currentUser" class="text-sm text-gray-900 dark:text-white flex items-center" role="none">
                     <!-- <span class="mr-1">Bağlantı:</span> -->
                     <span :class="{'bg-green-500': isOnline, 'bg-red-600': !isOnline}" class="flex-shrink-0 w-3 h-3 rounded-full mr-1"></span>                    
                     {{ isOnline }}
                     <!-- Auth: {{ isAuth }} -->
                   </p>
-                  <p v-if="isAuth && currentUser" class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
+                  <p v-if="isAuth && currentUser" class="text-sm font-semibold text-gray-900 truncate dark:text-gray-300" role="none">
                     {{ currentUser.displayName }}
                   </p>
                 </div>
