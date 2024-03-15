@@ -8,6 +8,7 @@ import BrandFilter from '@/components/Product/BrandFilter.vue'
 import StockStatusFilter from '@/components/Product/StockStatusFilter.vue'
 import TableFooter from '@/components/Global/TableFooter.vue'
 import ApiService from '@/services/apiServices'
+import Loading from '@/components/Global/Loading.vue'
 
 const apiService = ApiService
 
@@ -18,35 +19,67 @@ const limit = ref<number>(20)
 const page = ref<number>(1)
 const totalProducts = ref<number>(0)
 const maxPage = ref<number>(0)
+const minId = ref<number>(1)
+const maxId = ref<number>(20)
+const updateButtonIconAnimation = ref<boolean>(false)
 
 const calculateMaxPage = (): number => {
     return Math.ceil(totalProducts.value / limit.value)
 }
 
-const fetchData = async () => {
+const fetchData = async (_skip: number = 0) => {
     try {
-        const response = await apiService.getAll(limit.value, (page.value - 1) * limit.value)
-        console.log((page.value - 1) * limit.value);
-        productData.value = response.data.products
-        totalProducts.value = response.data.total
-        maxPage.value = calculateMaxPage()
-        console.log(productData.value)
+        const response = await apiService.getAll(limit.value, _skip)
+        setTimeout(() => {
+            productData.value = response.data.products
+            totalProducts.value = response.data.total
+            maxPage.value = calculateMaxPage()
+            maxId.value = response.data.products.reduce((max: number, product: any) => Math.max(max, product.id), Number.MIN_SAFE_INTEGER)
+            minId.value = response.data.products.reduce((min: number, product: any) => Math.min(min, product.id), Number.MAX_SAFE_INTEGER)
+        }, 1000)
     } catch (error: any) {
         throw new Error(error)
     }
 }
 
+const updateStocks = async () => {
+    try {
+        updateButtonIconAnimation.value = true
+        await fetchData()
+        setTimeout(() => {
+            updateButtonIconAnimation.value = false
+        }, 1000)
+    } catch (error: any) {
+        console.error('Stokları güncelleme hatası:', error)
+        updateButtonIconAnimation.value = false
+        throw new Error(error)
+    }
+}
+
+
+// const maxId = computed(() => {
+//   return productData.value.reduce((max: number, product: any) => {
+//     return Math.max(max, product.id)
+//   }, Number.MIN_SAFE_INTEGER)
+// })
+
+// const minId = computed(() => {
+//   return productData.value.reduce((min: number, product: any) => {
+//     return Math.min(min, product.id);
+//   }, Number.MAX_SAFE_INTEGER)
+// })
+
 const prevPage = (): void => {
     if (page.value > 1) {
         page.value--
-        fetchData()
+        fetchData((page.value - 1) * 20)
     }
 }
 
 const nextPage = (): void => {
     if (page.value < maxPage.value) {
         page.value++
-        fetchData()
+        fetchData((page.value - 1) * 20)
     }
 }
 
@@ -55,6 +88,7 @@ onMounted(() => {
     maxPage.value = calculateMaxPage()
 })
 
+provide('fetchData', fetchData)
 provide('pagination', { prevPage, nextPage })
 
 </script>
@@ -63,6 +97,11 @@ provide('pagination', { prevPage, nextPage })
     <MainLayout>
         <section class="bg-mainBgColor dark:bg-gray-900 rounded-lg">
             <div class="min-w-full bg-mainBgColor">
+                <div v-if="totalProducts === 0" class="bg-white rounded-lg dark:bg-gray-800 md:pl-70 mx-4 shadow-md sm:rounded-lg overflow-hidden">
+                    <!-- Loading Icon -->
+                    <Loading />
+                    <!-- Loading Icon -->                    
+                    </div>
                 <div class="bg-white rounded-lg dark:bg-gray-800 md:pl-70 mx-4 shadow-md sm:rounded-lg overflow-hidden">
                     <div
                         class="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
@@ -86,12 +125,13 @@ provide('pagination', { prevPage, nextPage })
                                 Yeni ürün ekle
                             </RouterLink>
 
-                            <button type="button"
+                            <button @click="updateStocks()" type="button"
                                 class="flex items-center justify-center flex-shrink-0 px-2 py-1 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                <span class="material-symbols-outlined w-6 h-6 mr-2">
+                                <span :class="{ 'animate-spin': updateButtonIconAnimation }"
+                                    class="material-symbols-outlined w-6 h-6 mr-2">
                                     cached
                                 </span>
-                                Stokları güncelle 1/250
+                                Stokları güncelle 1/{{ totalProducts }}
                             </button>
                             <button type="button"
                                 class="flex items-center justify-center flex-shrink-0 px-2 py-1 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
@@ -115,7 +155,7 @@ provide('pagination', { prevPage, nextPage })
                             </div>
                         </div>
                     </div>
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto">                  
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead
                                 class="text-sm text-gray-700 capitalize bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -202,7 +242,8 @@ provide('pagination', { prevPage, nextPage })
                         </table>
                     </div>
                     <!-- Table Footer -->
-                    <TableFooter v-model:pageNumber="page" v-model:maxPageCount="maxPage" v-model:totalProductCount="totalProducts" />
+                    <TableFooter :minId :maxId v-model:pageNumber="page" v-model:maxPageCount="maxPage"
+                        v-model:totalProductCount="totalProducts" />
                     <!-- Table Footer -->
                 </div>
             </div>

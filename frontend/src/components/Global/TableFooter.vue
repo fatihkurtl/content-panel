@@ -1,20 +1,33 @@
 <script setup lang="ts">
 import { ref, inject } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
+
+const fetchData: any = inject('fetchData')
 
 interface Pagination {
   prevPage: () => void
   nextPage: () => void
 }
+
 const pagination = inject<Pagination>('pagination') || { nextPage: () => {}, prevPage: () => {} }
 
 const pageNumber = defineModel<number>('pageNumber', { required: true })
 const maxPageCount = defineModel<number>('maxPageCount', { required: true })
 const totalProductCount = defineModel('totalProductCount', { required: true })
 
-const goToPage = (page: number): void => {
+
+const goToPage = (page: number, skip: number): void => {
+    fetchData(skip)
     pageNumber.value = page
+    // router.push({ path: '/products', query: { limit: 20, skip: (page - 1) * 20 } })
 }
+
+const props = defineProps<{    
+    maxId: number,
+    minId: number,
+  }>()
 
 </script>
 
@@ -25,7 +38,7 @@ const goToPage = (page: number): void => {
         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
             <span class="font-semibold text-gray-900 dark:text-white">{{ totalProductCount }}</span>
             üründen
-            <span class="font-semibold text-gray-900 dark:text-white">{{ pageNumber }}-{{ maxPageCount }}</span>
+            <span class="font-semibold text-gray-900 dark:text-white">{{ props.minId }}-{{ props.maxId }}</span>
             arası gösteriliyor
         </span>
         <ul class="inline-flex items-stretch -space-x-px">
@@ -45,7 +58,7 @@ const goToPage = (page: number): void => {
             </li>
             <li v-for="(page, index) in maxPageCount" :key="index">
                 <a href="#"
-                @click="goToPage(page)"
+                @click="goToPage(page, (page - 1) * 20)"
                     :class="{'bg-white': page !== pageNumber, 'bg-gray-300 font-bold': page === pageNumber}"
                     class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                     {{ page }}    
