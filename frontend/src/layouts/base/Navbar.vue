@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
+import { useOnline } from '@vueuse/core'
 import userImage from '@/assets/user.png'
 import awsIcon from '@/assets/aws_icon.png'
 import { useSidebarStore } from '../../stores/sidebar'
@@ -8,11 +9,15 @@ import useNavbarDropdowns from '@/composables/navbar/navbar-dropdowns'
 import Progress from '@/components/Global/Progress.vue'
 import { useAuthStore } from '@/stores/authStore'
 
+
 const authStore = useAuthStore()
 const appName = ref<string>(import.meta.env.VITE_APP_NAME)
 
 const currentUser = ref()
 const isAuth = ref()
+
+const online = useOnline()
+const isOnline = computed(() => online.value ? 'Çevrimiçi' : 'Bağlantı Yok')
 
 onMounted(async () => {
   currentUser.value = await authStore.user
@@ -250,9 +255,12 @@ const handleLogout = async () => {
               <div :class="{ 'hidden': !userMenuOpen }"
                 class="absolute right-0 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
                 id="dropdown-user">
-                <div class="px-4 py-3" role="none">
-                  <p v-if="isAuth && currentUser" class="text-sm text-gray-900 dark:text-white" role="none">
-                    Auth: {{ isAuth }}
+                <div class="px-4 py-3 bg-gray-200" role="none">
+                  <p v-if="isAuth && currentUser" class="text-sm text-gray-900 dark:text-white flex items-center" role="none">
+                    <!-- <span class="mr-1">Bağlantı:</span> -->
+                    <span :class="{'bg-green-500': isOnline, 'bg-red-600': !isOnline}" class="flex-shrink-0 w-3 h-3 rounded-full mr-1"></span>                    
+                    {{ isOnline }}
+                    <!-- Auth: {{ isAuth }} -->
                   </p>
                   <p v-if="isAuth && currentUser" class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
                     {{ currentUser.displayName }}

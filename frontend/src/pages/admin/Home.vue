@@ -18,8 +18,17 @@ const {
 console.log('.env variable =>', import.meta.env.VITE_APP_NAME)
 
 
+const toggleTimePeriod = (timeRange: string) => {
+  if (selectedTimePeriod.value === timeRange) {
+    selectedTimePeriod.value = ''
+  } else {
+    selectedTimePeriod.value = timeRange
+  }
+}
 
-
+const isSelected = (timeRange: string) => {
+  return selectedTimePeriod.value === timeRange
+}
 </script>
 
 <template>
@@ -141,15 +150,13 @@ console.log('.env variable =>', import.meta.env.VITE_APP_NAME)
                                     <ul class="p-3 border rounded-lg space-y-1 text-sm text-gray-700 dark:text-gray-200"
                                        aria-labelledby="dropdownRadioButton">
                                        <li v-for="(timeRange, index) in TopSellingFilters" :key="index">
-                                          <div @click="selectedTimePeriod = timeRange"
-                                             class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                                             <input id="filter-radio-example-1" type="radio" :value="timeRange"
-                                                name="filter-radio"
-                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                             <label for="filter-radio-example-1"
-                                                class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">
-                                                {{ timeRange }}
-                                             </label>
+                                          <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                                          <input :id="`time-period`+index" type="radio" :value="timeRange" :name="`time-period`+index"
+                                              v-model="selectedTimePeriod"
+                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                          <label :for="`time-period`+index" class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">
+                                             {{ timeRange }}
+                                          </label>
                                           </div>
                                        </li>
                                     </ul>

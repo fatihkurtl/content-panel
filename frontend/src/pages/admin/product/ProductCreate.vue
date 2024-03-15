@@ -63,14 +63,12 @@ const handleProductFiles = (event: Event): void => {
     }
     // console.log(productData.images)
     // console.log(imagesPreviewList.value)
-};
-
+}
 
 const removeImage = (index: number): void => {
     productData.images.splice(index, 1)
     imagesPreviewList.value.splice(index, 1)
 }
-
 
 </script>
 
