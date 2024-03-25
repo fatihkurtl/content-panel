@@ -30,13 +30,13 @@ const calculateMaxPage = (): number => {
 const fetchData = async (_skip: number = 0) => {
     try {
         const response = await apiService.getAll(limit.value, _skip)
-        setTimeout(() => {
+        //setTimeout(() => {
             productData.value = response.data.products
             totalProducts.value = response.data.total
             maxPage.value = calculateMaxPage()
             maxId.value = response.data.products.reduce((max: number, product: any) => Math.max(max, product.id), Number.MIN_SAFE_INTEGER)
             minId.value = response.data.products.reduce((min: number, product: any) => Math.min(min, product.id), Number.MAX_SAFE_INTEGER)
-        }, 1000)
+        //}, 1000)
     } catch (error: any) {
         throw new Error(error)
     }
@@ -55,7 +55,6 @@ const updateStocks = async () => {
         throw new Error(error)
     }
 }
-
 
 // const maxId = computed(() => {
 //   return productData.value.reduce((max: number, product: any) => {

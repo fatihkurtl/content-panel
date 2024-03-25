@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import MainLayout from '@/layouts/admin/MainLayout.vue'
 import { TopSellingFilters } from '@/enums/home/enum'
 import useHomeDropdowns from '@/composables/home/home-dropdowns'
+import ShopStatistic from '@/components/Home/ShopStatistic.vue'
 import TableFooter from '@/components/Global/TableFooter.vue'
 import CustomersChart from '@/components/Home/CustomersChart.vue'
 import WebsiteTrafficChart from '@/components/Home/WebsiteTrafficChart.vue'
@@ -19,108 +20,29 @@ console.log('.env variable =>', import.meta.env.VITE_APP_NAME)
 
 
 const toggleTimePeriod = (timeRange: string) => {
-  if (selectedTimePeriod.value === timeRange) {
-    selectedTimePeriod.value = ''
-  } else {
-    selectedTimePeriod.value = timeRange
-  }
+   if (selectedTimePeriod.value === timeRange) {
+      selectedTimePeriod.value = ''
+   } else {
+      selectedTimePeriod.value = timeRange
+   }
 }
 
 const isSelected = (timeRange: string) => {
-  return selectedTimePeriod.value === timeRange
+   return selectedTimePeriod.value === timeRange
 }
 </script>
 
 <template>
    <MainLayout>
       <section class="bg-mainBgColor dark:bg-gray-900 rounded-lg">
+         <!-- Statistic -->
+         <ShopStatistic />
+         <!-- Statistic -->
          <div class="min-w-full bg-mainBgColor">
             <div class="bg-white rounded-lg dark:bg-gray-800 md:pl-70 mx-4 shadow-md sm:rounded-lg overflow-hidden">
                <div
                   class="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
                   <main class="overflow-x-auto w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-                        <!-- Total Product Count -->
-                        <div
-                           class="max-w-md min-h-full bg-white border border-gray-200 rounded-lg shadow p-6 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 flex justify-between items-center">
-                           <div>
-                              <span class="bottom-0 right-0 text-red-500 mr-6 mb-2">-8.5%</span>
-                              <p class="text-2xl font-bold text-gray-900">450</p>
-                              <p class="text-gray-700">Toplam Ürünler</p>
-                           </div>
-                           <div>
-                              <svg class="w-12 h-12 text-green-500" aria-hidden="true"
-                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M15.6 8.4h0m-4.7 11.3-6.6-6.6a1 1 0 0 1 0-1.4l7.3-7.4a1 1 0 0 1 .7-.3H18a2 2 0 0 1 2 2v5.5a1 1 0 0 1-.3.7l-7.5 7.5a1 1 0 0 1-1.3 0Z" />
-                              </svg>
-                           </div>
-                        </div>
-                        <!-- Total Product Count -->
-                        <!-- Total Sales -->
-                        <div
-                           class="max-w-sm min-h-full bg-white border border-gray-200 rounded-lg shadow p-6 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 flex justify-between items-center">
-                           <div>
-                              <span class="bottom-0 right-0 text-green-500 mr-6 mb-2">+3.5%</span>
-                              <p class="text-2xl font-bold text-gray-900 items-center">
-                                 <span class="material-symbols-outlined">
-                                    currency_lira
-                                 </span>
-                                 188.670,46
-                              </p>
-                              <p class="text-gray-700">Toplam Ciro</p>
-                           </div>
-                           <div>
-                              <svg class="w-12 h-12 text-green-500" aria-hidden="true"
-                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                 <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
-                                    d="M8 7V6c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1h-1M3 18v-7c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                              </svg>
-                           </div>
-                        </div>
-                        <!-- Total Sales -->
-                        <!-- Total Customers -->
-                        <div
-                           class="max-w-sm min-h-full bg-white border border-gray-200 rounded-lg shadow p-6 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 flex justify-between items-center">
-                           <div>
-                              <span class="bottom-0 right-0 text-green-500 mr-6 mb-2">+3.5%</span>
-                              <p class="text-2xl font-bold text-gray-900 items-center">
-                                 258
-                              </p>
-                              <p class="text-gray-700">Toplam Müşteriler</p>
-                           </div>
-                           <div>
-                              <svg class="w-12 h-12 text-green-500" aria-hidden="true"
-                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                 <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
-                                    d="M4.5 17H4a1 1 0 0 1-1-1 3 3 0 0 1 3-3h1m0-3a2.5 2.5 0 1 1 2-4.5M19.5 17h.5c.6 0 1-.4 1-1a3 3 0 0 0-3-3h-1m0-3a2.5 2.5 0 1 0-2-4.5m.5 13.5h-7a1 1 0 0 1-1-1 3 3 0 0 1 3-3h3a3 3 0 0 1 3 3c0 .6-.4 1-1 1Zm-1-9.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
-                              </svg>
-                           </div>
-                        </div>
-                        <!-- Total Customers -->
-                        <!-- Total Orders -->
-                        <div
-                           class="max-w-sm min-h-full bg-white border border-gray-200 rounded-lg shadow p-6 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 flex justify-between items-center">
-                           <div>
-                              <span class="bottom-0 right-0 text-green-500 mr-6 mb-2">+3.5%</span>
-                              <p class="text-2xl font-bold text-gray-900 items-center">
-                                 258
-                              </p>
-                              <p class="text-gray-700">Toplam Siparişler</p>
-                           </div>
-                           <div>
-                              <svg class="w-12 h-12 text-green-500" aria-hidden="true"
-                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.3L19 7H7.3" />
-                              </svg>
-                           </div>
-                        </div>
-                        <!-- Total Orders -->
-                     </div>
-                     <!-- Top Selling Products -->
                      <div class="py-4">
                         <h1 class="py-2 text-xl font-semibold">En Çok Satılan Ürünler</h1>
                         <div class="relative overflow-x-auto shadow-md">
@@ -150,13 +72,15 @@ const isSelected = (timeRange: string) => {
                                     <ul class="p-3 border rounded-lg space-y-1 text-sm text-gray-700 dark:text-gray-200"
                                        aria-labelledby="dropdownRadioButton">
                                        <li v-for="(timeRange, index) in TopSellingFilters" :key="index">
-                                          <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                                          <input :id="`time-period`+index" type="radio" :value="timeRange" :name="`time-period`+index"
-                                              v-model="selectedTimePeriod"
-                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                          <label :for="`time-period`+index" class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">
-                                             {{ timeRange }}
-                                          </label>
+                                          <div
+                                             class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                                             <input :id="`time-period` + index" type="radio" :value="timeRange"
+                                                :name="`time-period` + index" v-model="selectedTimePeriod"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                             <label :for="`time-period` + index"
+                                                class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">
+                                                {{ timeRange }}
+                                             </label>
                                           </div>
                                        </li>
                                     </ul>
@@ -178,7 +102,7 @@ const isSelected = (timeRange: string) => {
                                     placeholder="Arama...">
                               </div>
                            </div>
-                           <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                           <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-lg">
                               <thead
                                  class="text-sm text-gray-700 capitalize bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                  <tr>

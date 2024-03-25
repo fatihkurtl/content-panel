@@ -13,7 +13,7 @@ import Footer from '../base/Footer.vue'
         <!-- Breadcrumb -->
         <Navbar />
         <Sidebar />
-        <div class="bg-mainBgColor mt-8 md:mt-0 lg:mt-0 md:ml-64"> 
+        <div class="bg-mainBgColor mt-8 md:mt-0 lg:mt-0 md:ml-64">
             <slot />
             <Footer />
         </div>

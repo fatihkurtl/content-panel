@@ -2,7 +2,7 @@
 import { ref, inject } from 'vue'
 import { useRouter } from 'vue-router'
 
-const router = useRouter()
+// const router = useRouter()
 
 const fetchData: any = inject('fetchData')
 
