@@ -1,6 +1,6 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 
-export default function useHomeDropdowns() {
+export default function useHomeDropdowns(): any {
     const topSellingFilterOpen = ref<boolean>(false)
     const topSellingElement = ref<HTMLElement | null>(null)
 

@@ -4,6 +4,7 @@ import MainLayout from '@/layouts/admin/MainLayout.vue'
 import { TopSellingFilters } from '@/enums/home/enum'
 import useHomeDropdowns from '@/composables/home/home-dropdowns'
 import ShopStatistic from '@/components/Home/ShopStatistic.vue'
+import Tabs from '@/components/Home/Tabs.vue'
 import TableFooter from '@/components/Global/TableFooter.vue'
 import CustomersChart from '@/components/Home/CustomersChart.vue'
 import WebsiteTrafficChart from '@/components/Home/WebsiteTrafficChart.vue'
@@ -30,6 +31,7 @@ const toggleTimePeriod = (timeRange: string) => {
 const isSelected = (timeRange: string) => {
    return selectedTimePeriod.value === timeRange
 }
+
 </script>
 
 <template>
@@ -102,7 +104,8 @@ const isSelected = (timeRange: string) => {
                                     placeholder="Arama...">
                               </div>
                            </div>
-                           <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-lg">
+                           <table
+                              class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-lg">
                               <thead
                                  class="text-sm text-gray-700 capitalize bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                  <tr>
@@ -126,7 +129,7 @@ const isSelected = (timeRange: string) => {
                                        Gelir
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                       Action
+                                       Eylem
                                     </th>
                                  </tr>
                               </thead>
@@ -155,7 +158,7 @@ const isSelected = (timeRange: string) => {
                                     </td>
                                     <td class="px-6 py-4">
                                        <a href="#"
-                                          class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                          class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Düzenle</a>
                                     </td>
                                  </tr>
                                  <tr
@@ -182,7 +185,7 @@ const isSelected = (timeRange: string) => {
                                     </td>
                                     <td class="px-6 py-4">
                                        <a href="#"
-                                          class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                          class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Düzenle</a>
                                     </td>
                                  </tr>
                                  <tr
@@ -322,8 +325,9 @@ const isSelected = (timeRange: string) => {
                            class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72">
                         </div>
                      </div>
-                     <div class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4">
-                     </div>
+                     <!-- Tabs -->
+                     <!-- <Tabs /> -->
+                     <!-- Tabs -->
                      <div class="grid grid-cols-2 gap-4">
                         <div
                            class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72">
