@@ -53,9 +53,6 @@ importers:
       vue-router:
         specifier: ^4.2.5
         version: 4.2.5(vue@3.4.15(typescript@5.3.3))
-      vue3-apexcharts:
-        specifier: ^1.5.2
-        version: 1.5.2(apexcharts@3.46.0)(vue@3.4.15(typescript@5.3.3))
     devDependencies:
       '@tsconfig/node20':
         specifier: ^20.1.2
@@ -1259,12 +1256,6 @@ packages:
     peerDependencies:
       typescript: '*'
 
-  vue3-apexcharts@1.5.2:
-    resolution: {integrity: sha512-rGbgUJDjtsyjfRF0uzwDjzt8+M7ICSRAbm1N9KCDiczW8BSpbEZuaEsJDJYnJuLFIIVXIGilYzIcjNBf6NbeYA==}
-    peerDependencies:
-      apexcharts: '> 3.0.0'
-      vue: '> 3.0.0'
-
   vue@3.4.15:
     resolution: {integrity: sha512-jC0GH4KkWLWJOEQjOpkqU1bQsBwf4R1rsFtw5GQJbjHVKWDzO6P0nWWBTmjp1xSemAioDFj1jdaK1qa3DnMQoQ==}
     peerDependencies:
@@ -2416,11 +2407,6 @@ snapshots:
       '@vue/language-core': 1.8.27(typescript@5.3.3)
       semver: 7.5.4
       typescript: 5.3.3
-
-  vue3-apexcharts@1.5.2(apexcharts@3.46.0)(vue@3.4.15(typescript@5.3.3)):
-    dependencies:
-      apexcharts: 3.46.0
-      vue: 3.4.15(typescript@5.3.3)
 
   vue@3.4.15(typescript@5.3.3):
     dependencies:
