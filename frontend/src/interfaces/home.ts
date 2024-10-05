@@ -1,4 +1,4 @@
-interface ITab {
+export interface ITab {
     id: string
     label: string
     title: string

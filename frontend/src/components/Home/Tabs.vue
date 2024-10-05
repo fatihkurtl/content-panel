@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import ITab from '@/interfaces/home'
+import type {ITab} from '@/interfaces/home'
 
 const tabs = ref<ITab[]>([
     {
